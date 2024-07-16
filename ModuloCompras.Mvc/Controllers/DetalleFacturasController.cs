@@ -9,39 +9,39 @@ namespace ModuloCompras.Mvc.Controllers
     {
         private string urlApi;
 
-        public  DetalleFacturasController(IConfiguration configuration)
+        public DetalleFacturasController(IConfiguration configuration)
         {
-            urlApi = configuration.GetValue("ApiUrlBase", "").ToString() + "/ DetalleFacturas";
+            urlApi = configuration.GetValue("ApiUrlBase", "").ToString() + "/DetalleFacturas";
         }
 
-        // GET:  DetalleFacturasController
+        // GET: DetalleFacturasController
         public ActionResult Index()
         {
-            var data = Crud< DetalleFactura>.Read(urlApi);
+            var data = Crud<DetalleFactura>.Read(urlApi);
             return View(data);
         }
 
-        // GET:  DetalleFacturasController/Details/5
+        // GET: DetalleFacturasController/Details/5
         public ActionResult Details(int id)
         {
-            var data = Crud< DetalleFactura>.Read_ById(urlApi, id);
+            var data = Crud<DetalleFactura>.Read_ById(urlApi, id);
             return View(data);
         }
 
-        // GET:  DetalleFacturasController/Create
+        // GET: DetalleFacturasController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST:  DetalleFacturasController/Create
+        // POST: DetalleFacturasController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create( DetalleFactura data)
+        public ActionResult Create(DetalleFactura data)
         {
             try
             {
-                var newData = Crud< DetalleFactura>.Create(urlApi, data);
+                var newData = Crud<DetalleFactura>.Create(urlApi, data);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -51,21 +51,21 @@ namespace ModuloCompras.Mvc.Controllers
             }
         }
 
-        // GET:  DetalleFacturasController/Edit/5
+        // GET: DetalleFacturasController/Edit/5
         public ActionResult Edit(int id)
         {
-            var data = Crud< DetalleFactura>.Read_ById(urlApi, id);
+            var data = Crud<DetalleFactura>.Read_ById(urlApi, id);
             return View(data);
         }
 
-        // POST:  DetalleFacturasController/Edit/5
+        // POST: DetalleFacturasController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id,  DetalleFactura data)
+        public ActionResult Edit(int id, DetalleFactura data)
         {
             try
             {
-                Crud< DetalleFactura>.Update(urlApi, id, data);
+                Crud<DetalleFactura>.Update(urlApi, id, data);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -75,21 +75,21 @@ namespace ModuloCompras.Mvc.Controllers
             }
         }
 
-        // GET:  DetalleFacturasController/Delete/5
+        // GET: DetalleFacturasController/Delete/5
         public ActionResult Delete(int id)
         {
-            var data = Crud< DetalleFactura>.Read_ById(urlApi, id);
+            var data = Crud<DetalleFactura>.Read_ById(urlApi, id);
             return View(data);
         }
 
-        // POST:  DetalleFacturasController/Delete/5
+        // POST: DetalleFacturasController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id,  DetalleFactura data)
+        public ActionResult Delete(int id, DetalleFactura data)
         {
             try
             {
-                Crud< DetalleFactura>.Delete(urlApi, id);
+                Crud<DetalleFactura>.Delete(urlApi, id);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -100,4 +100,3 @@ namespace ModuloCompras.Mvc.Controllers
         }
     }
 }
-

@@ -34,6 +34,7 @@ namespace ModuloCompras.Mvc.Controllers
             return View();
         }
 
+
         // POST: FacturasController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]

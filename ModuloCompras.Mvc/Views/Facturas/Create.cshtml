@@ -19,11 +19,6 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label asp-for="Factura.Fecha" class="control-label"></label>
-                                <input asp-for="Factura.Fecha" class="form-control" />
-                                <span asp-validation-for="Factura.Fecha" class="text-danger"></span>
-                            </div>
-                            <div class="form-group mb-3">
                                 <label asp-for="Factura.ProveedorId" class="control-label"></label>
                                 <select asp-for="Factura.ProveedorId" class="form-control" id="ProveedorId" onchange="cargarTipoPago()">
                                     <option value="">Seleccione un proveedor</option>
@@ -37,20 +32,25 @@
                                 <span asp-validation-for="Factura.ProveedorId" class="text-danger"></span>
                             </div>
                             <div class="form-group mb-3">
-                                <label asp-for="Factura.TipoPago" class="control-label"></label>
-                                <input asp-for="Factura.TipoPago" class="form-control" id="TipoPago" readonly />
-                                <span asp-validation-for="Factura.TipoPago" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group mb-3">
-                                <label asp-for="Factura.FechaVencimiento" class="control-label"></label>
-                                <input asp-for="Factura.FechaVencimiento" class="form-control" />
-                                <span asp-validation-for="Factura.FechaVencimiento" class="text-danger"></span>
+                                <label asp-for="Factura.Fecha" class="control-label"></label>
+                                <input asp-for="Factura.Fecha" class="form-control" />
+                                <span asp-validation-for="Factura.Fecha" class="text-danger"></span>
                             </div>
                             <div class="form-group form-check mb-3 d-flex align-items-center">
                                 <input class="form-check-input" asp-for="Factura.Impresa" />
                                 <label class="form-check-label ms-2" asp-for="Factura.Impresa"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="Factura.TipoPago" class="control-label"></label>
+                                <input asp-for="Factura.TipoPago" class="form-control" id="TipoPago" readonly />
+                                <span asp-validation-for="Factura.TipoPago" class="text-danger"></span>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label asp-for="Factura.FechaVencimiento" class="control-label"></label>
+                                <input asp-for="Factura.FechaVencimiento" class="form-control" />
+                                <span asp-validation-for="Factura.FechaVencimiento" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
@@ -127,13 +127,13 @@
             var table = document.getElementById("detalleFacturaTable");
             var row = table.insertRow();
             row.innerHTML = `
-                        <td><input type="hidden" name="DetalleFacturas[${table.rows.length}].ProductoId" value="${productoId}" />${productoNombre}</td>
-                        <td><input type="hidden" name="DetalleFacturas[${table.rows.length}].Cantidad" value="${cantidad}" />${cantidad}</td>
-                        <td><input type="hidden" name="DetalleFacturas[${table.rows.length}].PrecioUnitario" value="${precioUnitario}" />${precioUnitario}</td>
-                        <td><input type="hidden" name="DetalleFacturas[${table.rows.length}].Iva" value="${totalIva}" />${totalIva.toFixed(2)}</td>
-                        <td><input type="hidden" name="DetalleFacturas[${table.rows.length}].SubTotal" value="${total}" />${total.toFixed(2)}</td>
-                        <td><button type="button" class="btn btn-danger" onclick="removeRow(this)">Eliminar</button></td>
-                    `;
+                                <td><input type="hidden" name="DetalleFacturas[${table.rows.length}].ProductoId" value="${productoId}" />${productoNombre}</td>
+                                <td><input type="hidden" name="DetalleFacturas[${table.rows.length}].Cantidad" value="${cantidad}" />${cantidad}</td>
+                                <td><input type="hidden" name="DetalleFacturas[${table.rows.length}].PrecioUnitario" value="${precioUnitario}" />${precioUnitario}</td>
+                                <td><input type="hidden" name="DetalleFacturas[${table.rows.length}].Iva" value="${totalIva}" />${totalIva.toFixed(2)}</td>
+                                <td><input type="hidden" name="DetalleFacturas[${table.rows.length}].SubTotal" value="${total}" />${total.toFixed(2)}</td>
+                                <td><button type="button" class="btn btn-danger" onclick="removeRow(this)">Eliminar</button></td>
+                            `;
         }
 
         function removeRow(button) {

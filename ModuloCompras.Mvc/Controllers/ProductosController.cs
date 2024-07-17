@@ -21,7 +21,7 @@ namespace ModuloCompras.Mvc.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var response = await _httpClient.GetAsync($"{_apiUrlProductos}/Productos");
+            var response = await _httpClient.GetAsync($"{_apiUrlProductos}/Producto");
             response.EnsureSuccessStatusCode();
             var jsonResponse = await response.Content.ReadAsStringAsync();
             var productos = JsonConvert.DeserializeObject<List<Producto>>(jsonResponse);

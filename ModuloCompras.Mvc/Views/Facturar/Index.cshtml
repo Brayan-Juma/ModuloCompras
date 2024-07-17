@@ -5,99 +5,107 @@
     var productos = ViewBag.Productos as List<ModuloCompras.Mvc.Models.Producto>;
 }
 
-<h2>Facturar</h2>
+<h1 class="text-center my-4">Facturar</h1>
 
-<div>
-    <label>Proveedor:</label>
-    <select id="proveedor" name="proveedor">
-        <option value="">Seleccione un proveedor</option>
-        @if (proveedores != null)
-        {
-            foreach (var proveedor in proveedores)
-            {
-                <option value="@proveedor.Id" data-tipopago="@proveedor.TipoProveedor">@proveedor.Apellidos @proveedor.Nombres</option>
-            }
-        }
-    </select>
-    <br />
-    <label>Fecha:</label>
-    <input type="text" id="fecha" name="fecha" value="@DateTime.Now.ToString("yyyy-MM-dd")" readonly />
-    <br />
-    <label>Fecha de Vencimiento:</label>
-    <input type="date" id="fechaVencimiento" name="fechaVencimiento" />
-    <br />
-    <label>Tipo de Pago:</label>
-    <input type="text" id="tipoPago" name="tipoPago" readonly />
-    <br />
-</div>
-<br />
-<div>
-    <h3>Detalle de Productos</h3>
-    <label>Seleccionar Producto:</label>
-    <select id="codigoProducto" name="codigoProducto" onchange="cargarProductoSeleccionado()">
-        <option value="">Seleccione un producto</option>
-        @if (productos != null)
-        {
-            foreach (var producto in productos)
-            {
-                <option value="@producto.Codigo"
-                        data-descripcion="@producto.Descripcion"
-                        data-precio="@producto.Pvp"
-                        data-stock="@producto.StockProducto"
-                        data-gravaiva="@producto.GravaIVA">
-                    @producto.Codigo - @producto.Descripcion
-                </option>
-            }
-        }
-    </select>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <form>
+            <div class="mb-3">
+                <label>Proveedor:</label>
+                <select id="proveedor" name="proveedor" class="form-control">
+                    <option value="">Seleccione un proveedor</option>
+                    @if (proveedores != null)
+                    {
+                        foreach (var proveedor in proveedores)
+                        {
+                            <option value="@proveedor.Id" data-tipopago="@proveedor.TipoProveedor">@proveedor.Apellidos @proveedor.Nombres</option>
+                        }
+                    }
+                </select>
+                <br />
+                <label>Fecha:</label>
+                <input type="text" id="fecha" name="fecha" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" readonly />
+                <br />
+                <label>Fecha de Vencimiento:</label>
+                <input type="date" id="fechaVencimiento" name="fechaVencimiento" class="form-control" />
+                <br />
+                <label>Tipo de Pago:</label>
+                <input type="text" id="tipoPago" name="tipoPago" class="form-control" readonly />
+                <br />
+            </div>
 
-    <br />
-    <label>Descripción:</label>
-    <input type="text" id="descripcion" name="descripcion" readonly />
-    <br />
-    <label>Precio Unitario:</label>
-    <input type="text" id="precioUnitario" name="precioUnitario" readonly />
-    <br />
-    <label>Stock:</label>
-    <input type="text" id="stock" name="stock" readonly />
-    <br />
-    <label>Cantidad:</label>
-    <input type="number" id="cantidad" name="cantidad" />
-    <br />
-    <label>Grava IVA:</label>
-    <input type="checkbox" id="gravaIVA" name="gravaIVA" readonly />
-    <br />
-    <button type="button" onclick="agregarProducto()">Agregar</button>
-</div>
+            <div class="mb-3">
+                <h3 class="mt-4">Detalle de Productos</h3>
+                <label>Seleccionar Producto:</label>
+                <select id="codigoProducto" name="codigoProducto" class="form-control" onchange="cargarProductoSeleccionado()">
+                    <option value="">Seleccione un producto</option>
+                    @if (productos != null)
+                    {
+                        foreach (var producto in productos)
+                        {
+                            <option value="@producto.Codigo"
+                                    data-descripcion="@producto.Descripcion"
+                                    data-precio="@producto.Pvp"
+                                    data-stock="@producto.StockProducto"
+                                    data-gravaiva="@producto.GravaIVA">
+                                @producto.Codigo - @producto.Descripcion
+                            </option>
+                        }
+                    }
+                </select>
 
-<table id="detalleFactura" class="table">
-    <thead>
-        <tr>
-            <th>Código</th>
-            <th>Descripción</th>
-            <th>Cantidad</th>
-            <th>Precio Unitario</th>
-            <th>Grava IVA</th>
-            <th>Subtotal</th>
-        </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table>
+                <br />
+                <label>Descripción:</label>
+                <input type="text" id="descripcion" name="descripcion" class="form-control" readonly />
+                <br />
+                <label>Precio Unitario:</label>
+                <input type="text" id="precioUnitario" name="precioUnitario" class="form-control" readonly />
+                <br />
+                <label>Stock:</label>
+                <input type="text" id="stock" name="stock" class="form-control" readonly />
+                <br />
+                <label>Cantidad:</label>
+                <input type="number" id="cantidad" name="cantidad" class="form-control" />
+                <br />
+                <label>Grava IVA:</label>
+                <input type="checkbox" id="gravaIVA" name="gravaIVA" class="form-check-input" readonly />
+                <br />
+                <button type="button" class="btn btn-primary" onclick="agregarProducto()">Agregar</button>
+            </div>
 
-<div>
-    <label>Subtotal:</label>
-    <span id="subtotal"></span>
-    <br />
-    <label>IVA:</label>
-    <span id="iva"></span>
-    <br />
-    <label>Total:</label>
-    <span id="total"></span>
-    <br />
-    <button type="button" onclick="cancelar()">Cancelar</button>
-    <button type="button" onclick="guardar()">Guardar</button>
-    <button type="button" onclick="imprimir()">Imprimir</button>
+            <table id="detalleFactura" class="table table-striped table-bordered mt-4">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Código</th>
+                        <th>Descripción</th>
+                        <th>Cantidad</th>
+                        <th>Precio Unitario</th>
+                        <th>Grava IVA</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
+            <div class="mt-4">
+                <label>Subtotal:</label>
+                <span id="subtotal"></span>
+                <br />
+                <label>IVA:</label>
+                <span id="iva"></span>
+                <br />
+                <label>Total:</label>
+                <span id="total"></span>
+                <br />
+                <div class="form-group text-center mt-4 d-flex justify-content-center">
+                    <button type="button" class="btn btn-secondary mx-2" onclick="cancelar()"><i class="fas fa-times"></i> Cancelar</button>
+                    <button type="button" class="btn btn-primary mx-2" onclick="guardar()"><i class="fas fa-save"></i> Guardar</button>
+                    <button type="button" class="btn btn-success mx-2" onclick="imprimir()"><i class="fas fa-print"></i> Imprimir</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 
 @section Scripts {
@@ -168,7 +176,6 @@
             document.getElementById("total").innerHTML = total.toFixed(2);
         }
 
-
         function cancelar() {
             // Implementar lógica de cancelar
         }
@@ -190,7 +197,6 @@
 
             var today = new Date().toISOString().split('T')[0];
             document.getElementById("fechaVencimiento").setAttribute('min', today);
-
         });
     </script>
 }

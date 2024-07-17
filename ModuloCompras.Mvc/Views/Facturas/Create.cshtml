@@ -1,7 +1,7 @@
-﻿@model ModuloCompras.Entidades.Factura
+﻿@model ModuloCompras.Mvc.Models.ViewModels.FacturaDetalleViewModel
 
 @{
-    ViewData["Title"] = "Crear Factura";
+    ViewData["Title"] = "Crear Factura y Detalles";
 }
 
 <h1 class="text-center my-4">@ViewData["Title"]</h1>
@@ -15,39 +15,74 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
+                            <h4>Factura</h4>
                             <div class="form-group mb-3">
-                                <label asp-for="Id" class="control-label"></label>
-                                <input asp-for="Id" class="form-control" />
-                                <span asp-validation-for="Id" class="text-danger"></span>
+                                <label asp-for="Factura.Fecha" class="control-label"></label>
+                                <input asp-for="Factura.Fecha" class="form-control" />
+                                <span asp-validation-for="Factura.Fecha" class="text-danger"></span>
                             </div>
                             <div class="form-group mb-3">
-                                <label asp-for="Fecha" class="control-label"></label>
-                                <input asp-for="Fecha" class="form-control" />
-                                <span asp-validation-for="Fecha" class="text-danger"></span>
+                                <label asp-for="Factura.ProveedorId" class="control-label"></label>
+                                <select asp-for="Factura.ProveedorId" class="form-control" id="ProveedorId" onchange="cargarTipoPago()">
+                                    <option value="">Seleccione un proveedor</option>
+                                    @foreach (var proveedor in ViewBag.Proveedores)
+                                    {
+                                        <option value="@proveedor.Id" data-tipopago="@proveedor.TipoProveedor">
+                                            @proveedor.Nombres
+                                        </option>
+                                    }
+                                </select>
+                                <span asp-validation-for="Factura.ProveedorId" class="text-danger"></span>
                             </div>
                             <div class="form-group mb-3">
-                                <label asp-for="ProveedorId" class="control-label"></label>
-                                <input asp-for="ProveedorId" class="form-control" />
-                                <span asp-validation-for="ProveedorId" class="text-danger"></span>
+                                <label asp-for="Factura.TipoPago" class="control-label"></label>
+                                <input asp-for="Factura.TipoPago" class="form-control" id="TipoPago" readonly />
+                                <span asp-validation-for="Factura.TipoPago" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label asp-for="TipoPago" class="control-label"></label>
-                                <input asp-for="TipoPago" class="form-control" />
-                                <span asp-validation-for="TipoPago" class="text-danger"></span>
-                            </div>
-                            <div class="form-group mb-3">
-                                <label asp-for="FechaVencimiento" class="control-label"></label>
-                                <input asp-for="FechaVencimiento" class="form-control" />
-                                <span asp-validation-for="FechaVencimiento" class="text-danger"></span>
+                                <label asp-for="Factura.FechaVencimiento" class="control-label"></label>
+                                <input asp-for="Factura.FechaVencimiento" class="form-control" />
+                                <span asp-validation-for="Factura.FechaVencimiento" class="text-danger"></span>
                             </div>
                             <div class="form-group form-check mb-3">
-                                <input class="form-check-input" asp-for="Impresa" />
-                                <label class="form-check-label" asp-for="Impresa"></label>
+                                <input class="form-check-input" asp-for="Factura.Impresa" />
+                                <label class="form-check-label" asp-for="Factura.Impresa"></label>
                             </div>
                         </div>
                     </div>
+
+                    <h4>Detalles de la Factura</h4>
+                    <div>
+                        <select id="producto" class="form-control">
+                            <option value="">Seleccione un producto</option>
+                            @foreach (var producto in ViewBag.Productos)
+                            {
+                                <option value="@producto.Id_Producto" data-precio="@producto.Costo" data-iva="@producto.GravaIVA">
+                                    @producto.Nombre
+                                </option>
+                            }
+                        </select>
+                        <br />
+                        <input type="number" id="cantidad" class="form-control" placeholder="Cantidad" />
+                        <br />
+                        <button type="button" class="btn btn-primary" onclick="addRow()">Agregar Detalle</button>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Precio Unitario</th>
+                                <th>IVA</th>
+                                <th>Subtotal</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="detalleFacturaTable">
+                        </tbody>
+                    </table>
 
                     <div class="form-group text-center mt-4 d-flex justify-content-center">
                         <input type="submit" value="Crear" class="btn btn-primary mx-2" />
@@ -63,4 +98,41 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script>
+        function cargarTipoPago() {
+            var proveedorSelect = document.getElementById("ProveedorId");
+            var selectedOption = proveedorSelect.options[proveedorSelect.selectedIndex];
+            var tipoPago = selectedOption.getAttribute("data-tipopago");
+            document.getElementById("TipoPago").value = tipoPago;
+        }
+
+        function addRow() {
+            var productoSelect = document.getElementById("producto");
+            var selectedOption = productoSelect.options[productoSelect.selectedIndex];
+            var productoId = selectedOption.value;
+            var productoNombre = selectedOption.text;
+            var precioUnitario = selectedOption.getAttribute("data-precio");
+            var cantidad = document.getElementById("cantidad").value;
+            var iva = selectedOption.getAttribute("data-iva") === 'true' ? 0.15 : 0;
+            var subtotal = cantidad * precioUnitario;
+            var totalIva = subtotal * iva;
+            var total = subtotal + totalIva;
+
+            var table = document.getElementById("detalleFacturaTable");
+            var row = table.insertRow();
+            row.innerHTML = `
+                        <td><input type="hidden" name="DetalleFacturas[${table.rows.length}].ProductoId" value="${productoId}" />${productoNombre}</td>
+                        <td><input type="hidden" name="DetalleFacturas[${table.rows.length}].Cantidad" value="${cantidad}" />${cantidad}</td>
+                        <td><input type="hidden" name="DetalleFacturas[${table.rows.length}].PrecioUnitario" value="${precioUnitario}" />${precioUnitario}</td>
+                        <td><input type="hidden" name="DetalleFacturas[${table.rows.length}].Iva" value="${totalIva}" />${totalIva.toFixed(2)}</td>
+                        <td><input type="hidden" name="DetalleFacturas[${table.rows.length}].SubTotal" value="${total}" />${total.toFixed(2)}</td>
+                        <td><button type="button" class="btn btn-danger" onclick="removeRow(this)">Eliminar</button></td>
+                    `;
+        }
+
+        function removeRow(button) {
+            var row = button.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+        }
+    </script>
 }

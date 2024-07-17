@@ -43,7 +43,7 @@
 
             #sidebar .nav-link {
                 color: #fff;
-                font-size: 18px; /* Hacer el texto más grande */
+                font-size: 18px;
             }
 
                 #sidebar .nav-link i {
@@ -52,6 +52,11 @@
 
                 #sidebar .nav-link:hover {
                     background: #495057;
+                }
+
+                #sidebar .nav-link.active {
+                    background-color: #ff0000; /* Color de fondo rojo para el elemento activo */
+                    color: #fff;
                 }
 
         #content {
@@ -69,27 +74,27 @@
     <div id="sidebar">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
+                <a class="nav-link @(ViewContext.RouteData.Values["controller"].ToString() == "Home" ? "active" : "")" asp-area="" asp-controller="Home" asp-action="Index">
                     <i class="fas fa-home"></i> Inicio
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-area="" asp-controller="Proveedores" asp-action="Index">
+                <a class="nav-link @(ViewContext.RouteData.Values["controller"].ToString() == "Proveedores" ? "active" : "")" asp-area="" asp-controller="Proveedores" asp-action="Index">
                     <i class="fas fa-users"></i> Proveedores
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-area="" asp-controller="Facturas" asp-action="Index">
+                <a class="nav-link @(ViewContext.RouteData.Values["controller"].ToString() == "Facturas" ? "active" : "")" asp-area="" asp-controller="Facturas" asp-action="Index">
                     <i class="fas fa-file-invoice"></i> Facturas
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-area="" asp-controller="DetalleFacturas" asp-action="Index">
+                <a class="nav-link @(ViewContext.RouteData.Values["controller"].ToString() == "DetalleFacturas" ? "active" : "")" asp-area="" asp-controller="DetalleFacturas" asp-action="Index">
                     <i class="fas fa-file-invoice-dollar"></i> Detalles Factura
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-area="" asp-controller="Productos" asp-action="Index">
+                <a class="nav-link @(ViewContext.RouteData.Values["controller"].ToString() == "Productos" ? "active" : "")" asp-area="" asp-controller="Productos" asp-action="Index">
                     <i class="fas fa-box"></i> Productos
                 </a>
             </li>

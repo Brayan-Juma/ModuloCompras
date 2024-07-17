@@ -14,13 +14,10 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-12 text-center">
                             <h4>Factura</h4>
-                            <div class="form-group mb-3">
-                                <label asp-for="Factura.Fecha" class="control-label"></label>
-                                <input asp-for="Factura.Fecha" class="form-control" />
-                                <span asp-validation-for="Factura.Fecha" class="text-danger"></span>
-                            </div>
+                        </div>
+                        <div class="col-md-6">
                             <div class="form-group mb-3">
                                 <label asp-for="Factura.ProveedorId" class="control-label"></label>
                                 <select asp-for="Factura.ProveedorId" class="form-control" id="ProveedorId" onchange="cargarTipoPago()">
@@ -35,26 +32,33 @@
                                 <span asp-validation-for="Factura.ProveedorId" class="text-danger"></span>
                             </div>
                             <div class="form-group mb-3">
+                                <label asp-for="Factura.Fecha" class="control-label"></label>
+                                <input asp-for="Factura.Fecha" class="form-control" />
+                                <span asp-validation-for="Factura.Fecha" class="text-danger"></span>
+                            </div>
+                            <div class="form-group form-check mb-3 d-flex align-items-center">
+                                <input class="form-check-input" asp-for="Factura.Impresa" />
+                                <label class="form-check-label ms-2" asp-for="Factura.Impresa"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
                                 <label asp-for="Factura.TipoPago" class="control-label"></label>
                                 <input asp-for="Factura.TipoPago" class="form-control" id="TipoPago" readonly />
                                 <span asp-validation-for="Factura.TipoPago" class="text-danger"></span>
                             </div>
-                        </div>
-                        <div class="col-md-6">
                             <div class="form-group mb-3">
                                 <label asp-for="Factura.FechaVencimiento" class="control-label"></label>
                                 <input asp-for="Factura.FechaVencimiento" class="form-control" />
                                 <span asp-validation-for="Factura.FechaVencimiento" class="text-danger"></span>
                             </div>
-                            <div class="form-group form-check mb-3">
-                                <input class="form-check-input" asp-for="Factura.Impresa" />
-                                <label class="form-check-label" asp-for="Factura.Impresa"></label>
-                            </div>
                         </div>
                     </div>
 
-                    <h4>Detalles de la Factura</h4>
-                    <div>
+                    <div class="text-center">
+                        <h4>Detalles de la Factura</h4>
+                    </div>
+                    <div class="text-center">
                         <select id="producto" class="form-control">
                             <option value="">Seleccione un producto</option>
                             @foreach (var producto in ViewBag.Productos)
@@ -67,7 +71,9 @@
                         <br />
                         <input type="number" id="cantidad" class="form-control" placeholder="Cantidad" />
                         <br />
-                        <button type="button" class="btn btn-primary" onclick="addRow()">Agregar Detalle</button>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-primary" onclick="addRow()">Agregar Detalle</button>
+                        </div>
                     </div>
                     <table class="table">
                         <thead>

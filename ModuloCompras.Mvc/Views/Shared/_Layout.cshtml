@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="~/lib/fontawesome/css/all.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ModuloCompras.Mvc.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/all.min.css" />
     <style>
         body {
             display: flex;
@@ -23,16 +22,16 @@
             height: 70px;
             display: flex;
             align-items: center;
-<<<<<<< HEAD
-            padding-left: 20px;
-=======
-            justify-content: space-between; 
+            justify-content: space-between; /* Distribuir espacio entre elementos */
             padding: 0 20px;
->>>>>>> af2df638c4b2d892abe5339c2ae05685c9cca816
             color: #fff;
             font-size: 24px;
             font-weight: bold;
-            margin: 0;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
         }
 
         #sidebar {
@@ -49,7 +48,7 @@
 
             #sidebar .nav-link {
                 color: #fff;
-                font-size: 18px; 
+                font-size: 18px; /* Hacer el texto más grande */
             }
 
                 #sidebar .nav-link i {
@@ -70,7 +69,10 @@
 </head>
 <body>
     <div class="navbar-custom">
-        Modulo Compras
+        <div>Modulo Compras</div>
+        <div class="user-info">
+            <partial name="_LoginPartial.cshtml" />
+        </div>
     </div>
     <div id="sidebar">
         <ul class="nav flex-column">
@@ -99,9 +101,6 @@
                     <i class="fas fa-box"></i> Productos
                 </a>
             </li>
-            <li class="nav-item">
-                <partial name="_LoginPartial.cshtml" />
-            </li>
         </ul>
     </div>
     <div id="content">
@@ -116,7 +115,6 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/fontawesome/js/all.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/js/all.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

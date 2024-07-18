@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="~/lib/fontawesome/css/all.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ModuloCompras.Mvc.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/all.min.css" />
     <style>
         body {
             display: flex;
@@ -22,16 +23,16 @@
             height: 70px;
             display: flex;
             align-items: center;
+<<<<<<< HEAD
+            padding-left: 20px;
+=======
             justify-content: space-between; 
             padding: 0 20px;
+>>>>>>> af2df638c4b2d892abe5339c2ae05685c9cca816
             color: #fff;
             font-size: 24px;
             font-weight: bold;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
+            margin: 0;
         }
 
         #sidebar {
@@ -69,10 +70,7 @@
 </head>
 <body>
     <div class="navbar-custom">
-        <div>Modulo Compras</div>
-        <div class="user-info">
-            <partial name="_LoginPartial.cshtml" />
-        </div>
+        Modulo Compras
     </div>
     <div id="sidebar">
         <ul class="nav flex-column">
@@ -101,6 +99,9 @@
                     <i class="fas fa-box"></i> Productos
                 </a>
             </li>
+            <li class="nav-item">
+                <partial name="_LoginPartial.cshtml" />
+            </li>
         </ul>
     </div>
     <div id="content">
@@ -115,6 +116,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/fontawesome/js/all.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/all.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

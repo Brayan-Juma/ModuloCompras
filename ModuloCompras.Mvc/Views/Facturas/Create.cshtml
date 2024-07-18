@@ -15,30 +15,30 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
+
+
                             <div class="form-group mb-3">
-                                <label asp-for="Id" class="control-label"></label>
-                                <input asp-for="Id" class="form-control" />
-                                <span asp-validation-for="Id" class="text-danger"></span>
+                                <label asp-for="ProveedorId" class="control-label">Proveedor</label>
+                                <input asp-for="ProveedorId" class="form-control" />
+                                <span asp-validation-for="ProveedorId" class="text-danger"></span>
                             </div>
+
+
                             <div class="form-group mb-3">
-                                <label asp-for="Fecha" class="control-label"></label>
+                                <label asp-for="TipoPago" class="control-label">Tipo de Pago</label>
+                                <input asp-for="TipoPago" class="form-control" />
+                                <span asp-validation-for="TipoPago" class="text-danger"></span>
+                            </div>
+                                                        
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="Fecha" class="control-label">Fecha:</label>
                                 <input asp-for="Fecha" class="form-control" />
                                 <span asp-validation-for="Fecha" class="text-danger"></span>
                             </div>
                             <div class="form-group mb-3">
-                                <label asp-for="ProveedorId" class="control-label"></label>
-                                <input asp-for="ProveedorId" class="form-control" />
-                                <span asp-validation-for="ProveedorId" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group mb-3">
-                                <label asp-for="TipoPago" class="control-label"></label>
-                                <input asp-for="TipoPago" class="form-control" />
-                                <span asp-validation-for="TipoPago" class="text-danger"></span>
-                            </div>
-                            <div class="form-group mb-3">
-                                <label asp-for="FechaVencimiento" class="control-label"></label>
+                                <label asp-for="FechaVencimiento" class="control-label">Fecha de Vencimiento</label>
                                 <input asp-for="FechaVencimiento" class="form-control" />
                                 <span asp-validation-for="FechaVencimiento" class="text-danger"></span>
                             </div>
@@ -50,8 +50,9 @@
                     </div>
 
                     <div class="form-group text-center mt-4 d-flex justify-content-center">
-                        <input type="submit" value="Crear" class="btn btn-primary mx-2" />
-                        <a asp-action="Index" class="btn btn-secondary mx-2"><i class="fas fa-arrow-left"></i> Volver a la lista</a>
+                        <a asp-action="Index" class="btn btn-secondary mx-2"><i class="fas fa-arrow-left"></i>Cancelar</a>
+                        <input type="submit" value="Guardar" class="btn btn-primary mx-2" />
+                        <button type="button" class="btn btn-success mx-2">Imprimir</button>
                     </div>
                 </div>
             </div>

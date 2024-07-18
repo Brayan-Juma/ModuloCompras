@@ -22,11 +22,16 @@
             height: 70px;
             display: flex;
             align-items: center;
-            padding-left: 20px;
+            justify-content: space-between; /* Distribuir espacio entre elementos */
+            padding: 0 20px;
             color: #fff;
             font-size: 24px;
             font-weight: bold;
-            margin: 0;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
         }
 
         #sidebar {
@@ -64,7 +69,10 @@
 </head>
 <body>
     <div class="navbar-custom">
-        Modulo Compras
+        <div>Modulo Compras</div>
+        <div class="user-info">
+            <partial name="_LoginPartial.cshtml" />
+        </div>
     </div>
     <div id="sidebar">
         <ul class="nav flex-column">
@@ -92,9 +100,6 @@
                 <a class="nav-link" asp-area="" asp-controller="Productos" asp-action="Index">
                     <i class="fas fa-box"></i> Productos
                 </a>
-            </li>
-            <li class="nav-item">
-                <partial name="_LoginPartial.cshtml" />
             </li>
         </ul>
     </div>

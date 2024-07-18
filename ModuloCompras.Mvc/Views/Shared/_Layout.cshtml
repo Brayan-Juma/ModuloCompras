@@ -11,93 +11,79 @@
     <style>
         body {
             display: flex;
-            flex-direction: column;
-            margin: 0;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        .navbar-custom {
-            background-color: #007bff;
-            height: 70px;
-            display: flex;
-            align-items: center;
-            padding-left: 20px;
-            color: #fff;
-            font-size: 24px;
-            font-weight: bold;
-            margin: 0;
         }
 
         #sidebar {
             width: 250px;
             position: fixed;
-            top: 70px;
+            top: 0;
             left: 0;
-            height: calc(100% - 70px);
+            height: 100%;
             background: #343a40;
             color: #fff;
             padding-top: 20px;
-            overflow-y: auto;
         }
 
             #sidebar .nav-link {
                 color: #fff;
-                font-size: 18px;
             }
-
-                #sidebar .nav-link i {
-                    margin-right: 10px;
-                }
 
                 #sidebar .nav-link:hover {
                     background: #495057;
                 }
 
-                #sidebar .nav-link.active {
-                    background-color: rgba(255, 0, 0, 0.5); /* Color de fondo rojo transparente para el elemento activo */
-                    color: #fff;
-                }
-
         #content {
             margin-left: 250px;
             padding: 20px;
-            height: calc(100% - 70px);
-            overflow-y: auto;
+            width: 100%;
         }
     </style>
 </head>
 <body>
-    <div class="navbar-custom">
-        Modulo Compras
-    </div>
     <div id="sidebar">
+        <div class="sidebar-header text-center">
+            <h4>Módulo Compras</h4>
+        </div>
         <ul class="nav flex-column">
+
+
             <li class="nav-item">
-                <a class="nav-link @(ViewContext.RouteData.Values["controller"].ToString() == "Home" ? "active" : "")" asp-area="" asp-controller="Home" asp-action="Index">
+                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
                     <i class="fas fa-home"></i> Inicio
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link @(ViewContext.RouteData.Values["controller"].ToString() == "Proveedores" ? "active" : "")" asp-area="" asp-controller="Proveedores" asp-action="Index">
+                <a class="nav-link" asp-area="" asp-controller="Proveedores" asp-action="Index">
                     <i class="fas fa-users"></i> Proveedores
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link @(ViewContext.RouteData.Values["controller"].ToString() == "Facturas" ? "active" : "")" asp-area="" asp-controller="Facturas" asp-action="Index">
+                <a class="nav-link" asp-area="" asp-controller="Facturas" asp-action="Index">
                     <i class="fas fa-file-invoice"></i> Facturas
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link @(ViewContext.RouteData.Values["controller"].ToString() == "DetalleFacturas" ? "active" : "")" asp-area="" asp-controller="DetalleFacturas" asp-action="Index">
+                <a class="nav-link" asp-area="" asp-controller="DetalleFacturas" asp-action="Index">
                     <i class="fas fa-file-invoice-dollar"></i> Detalles Factura
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link @(ViewContext.RouteData.Values["controller"].ToString() == "Productos" ? "active" : "")" asp-area="" asp-controller="Productos" asp-action="Index">
+                <a class="nav-link" asp-area="" asp-controller="Productos" asp-action="Index">
                     <i class="fas fa-box"></i> Productos
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="Facturar" asp-action="Index">
+                    <i class="fas fa-box"></i> Facturar
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <partial name="_LoginPartial.cshtml" />
+            </li>
+
+            
+
         </ul>
     </div>
     <div id="content">

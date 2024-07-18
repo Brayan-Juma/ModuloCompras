@@ -1,130 +1,48 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using ModuloCompras.ConsumeApi;
 using ModuloCompras.Entidades;
-using ModuloCompras.Mvc.Models.ViewModels;
-using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using ModuloCompras.Mvc.Models;
 
 namespace ModuloCompras.Mvc.Controllers
 {
     public class FacturasController : Controller
     {
-        private readonly string urlApiFacturas;
-        private readonly string urlApiDetalles;
-        private readonly string urlApiProveedores;
-        private readonly string urlApiProductos;
-        private readonly HttpClient _httpClient;
+        private string urlApi;
 
         public FacturasController(IConfiguration configuration)
         {
-            urlApiFacturas = configuration.GetValue<string>("ApiUrlBase") + "/Facturas";
-            urlApiDetalles = configuration.GetValue<string>("ApiUrlBase") + "/DetalleFacturas";
-            urlApiProveedores = configuration.GetValue<string>("ApiUrlBase") + "/Proveedores";
-            urlApiProductos = configuration.GetValue<string>("ApiUrlProductos");
-            _httpClient = new HttpClient();
+            urlApi = configuration.GetValue("ApiUrlBase", "").ToString() + "/Facturas";
         }
 
-        public async Task<ActionResult> Create()
-        {
-            var proveedores = await ObtenerProveedores();
-            var productos = await ObtenerProductos();
-
-            ViewBag.Proveedores = proveedores;
-            ViewBag.Productos = productos;
-
-            return View(new FacturaDetalleViewModel());
-        }
-
-        private async Task<List<Proveedor>> ObtenerProveedores()
-        {
-            var response = await _httpClient.GetAsync(urlApiProveedores);
-            if (response.IsSuccessStatusCode)
-            {
-                var jsonResponse = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<List<Proveedor>>(jsonResponse).Where(p => p.Estado).ToList();
-            }
-            return new List<Proveedor>();
-        }
-
-
-        private async Task<List<Producto>> ObtenerProductos()
-        {
-            var response = await _httpClient.GetAsync(urlApiProductos + "/Producto");
-            if (response.IsSuccessStatusCode)
-            {
-                var jsonResponse = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<List<Producto>>(jsonResponse);
-            }
-            return new List<Producto>();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(FacturaDetalleViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    // Crear la factura
-                    var facturaResponse = await _httpClient.PostAsJsonAsync(urlApiFacturas, model.Factura);
-                    if (facturaResponse.IsSuccessStatusCode)
-                    {
-                        var factura = await facturaResponse.Content.ReadAsAsync<Factura>();
-
-                        // Crear los detalles de la factura
-                        foreach (var detalle in model.DetalleFacturas)
-                        {
-                            detalle.FacturaId = factura.Id;
-                            await _httpClient.PostAsJsonAsync(urlApiDetalles, detalle);
-                        }
-                        return RedirectToAction(nameof(Index));
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError("", ex.Message);
-                }
-            }
-
-            var proveedores = await ObtenerProveedores();
-            var productos = await ObtenerProductos();
-            ViewBag.Proveedores = proveedores;
-            ViewBag.Productos = productos;
-
-            return View(model);
-        }
-
+        // GET: FacturasController
         public ActionResult Index()
         {
-            var data = Crud<Factura>.Read(urlApiFacturas);
+            var data = Crud<Factura>.Read(urlApi);
             return View(data);
         }
 
+        // GET: FacturasController/Details/5
         public ActionResult Details(int id)
         {
-            var data = Crud<Factura>.Read_ById(urlApiFacturas, id);
+            var data = Crud<Factura>.Read_ById(urlApi, id);
             return View(data);
         }
 
-        public ActionResult Edit(int id)
+        // GET: FacturasController/Create
+        public ActionResult Create()
         {
-            var data = Crud<Factura>.Read_ById(urlApiFacturas, id);
-            return View(data);
+            return View();
         }
 
+
+        // POST: FacturasController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Factura data)
+        public ActionResult Create(Factura data)
         {
             try
             {
-                Crud<Factura>.Update(urlApiFacturas, id, data);
+                var newData = Crud<Factura>.Create(urlApi, data);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -134,19 +52,45 @@ namespace ModuloCompras.Mvc.Controllers
             }
         }
 
-        public ActionResult Delete(int id)
+        // GET: FacturasController/Edit/5
+        public ActionResult Edit(int id)
         {
-            var data = Crud<Factura>.Read_ById(urlApiFacturas, id);
+            var data = Crud<Factura>.Read_ById(urlApi, id);
             return View(data);
         }
 
+        // POST: FacturasController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, Factura data)
+        {
+            try
+            {
+                Crud<Factura>.Update(urlApi, id, data);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return View(data);
+            }
+        }
+
+        // GET: FacturasController/Delete/5
+        public ActionResult Delete(int id)
+        {
+            var data = Crud<Factura>.Read_ById(urlApi, id);
+            return View(data);
+        }
+
+        // POST: FacturasController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, Factura data)
         {
             try
             {
-                Crud<Factura>.Delete(urlApiFacturas, id);
+                Crud<Factura>.Delete(urlApi, id);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -157,3 +101,4 @@ namespace ModuloCompras.Mvc.Controllers
         }
     }
 }
+

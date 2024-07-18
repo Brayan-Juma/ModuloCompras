@@ -1,0 +1,44 @@
+﻿@page
+@model ModuloCompras.Mvc.Areas.Identity.Pages.Account.LoginModel
+
+@{
+    ViewData["Title"] = "Iniciar Sesión";
+}
+
+<h1 class="text-center">@ViewData["Title"]</h1>
+<div class="d-flex justify-content-center">
+    <div class="col-md-4">
+        <section>
+            <form method="post">
+                <hr />
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.Username" class="form-control" autocomplete="username" aria-required="true" placeholder="Username" />
+                    <label asp-for="Input.Username" class="form-label">Nombre de usuario</label>
+                    <span asp-validation-for="Input.Username" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="Password" />
+                    <label asp-for="Input.Password" class="form-label">Contraseña</label>
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="checkbox mb-3">
+                    @* <label asp-for="Input.RememberMe" class="form-label">
+                    <input class="form-check-input" asp-for="Input.RememberMe" />
+                    @Html.DisplayNameFor(m => m.Input.RememberMe)
+                    </label> *@
+                </div>
+                <div>
+                    <button type="submit" class="w-100 btn btn-lg btn-primary">Ingresar</button>
+                </div>
+                <div>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

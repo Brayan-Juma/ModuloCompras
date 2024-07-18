@@ -5,6 +5,7 @@ using ModuloCompras.Entidades;
 
 namespace ModuloCompras.Mvc.Controllers
 {
+
     public class DetalleFacturasController : Controller
     {
         private string urlApi;

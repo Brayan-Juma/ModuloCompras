@@ -24,41 +24,80 @@ namespace ModuloCompras.Mvc.Controllers
 
             MemoryStream workStream = new MemoryStream();
             Document document = new Document(PageSize.A4.Rotate(), 25, 25, 30, 30);
-            PdfWriter.GetInstance(document, workStream).CloseStream = false;
+            PdfWriter writer = PdfWriter.GetInstance(document, workStream);
+            writer.PageEvent = new FooterEventHandler(); // Añadir el evento para el pie de página
+            writer.CloseStream = false;
             document.Open();
 
             // Encabezado
-            Font headerFont = FontFactory.GetFont("Arial", 14, Font.BOLD);
-            Paragraph header = new Paragraph("Módulo Compras\n", headerFont);
-            header.Alignment = Element.ALIGN_CENTER;
-            document.Add(header);
 
-            Font subHeaderFont = FontFactory.GetFont("Arial", 12, Font.NORMAL);
-            Paragraph subHeader = new Paragraph("Aplicaciones Distribuidas\n\n", subHeaderFont);
-            subHeader.Alignment = Element.ALIGN_CENTER;
-            document.Add(subHeader);
 
-            // Fecha
-            Font dateFont = FontFactory.GetFont("Arial", 10, Font.NORMAL);
-            Paragraph date = new Paragraph($"Fecha: {DateTime.Now.ToString("dd/MM/yyyy")}\n\n", dateFont);
-            date.Alignment = Element.ALIGN_RIGHT;
-            document.Add(date);
 
-            // Título del reporte
-            Font titleFont = FontFactory.GetFont("Arial", 12, Font.BOLD);
-            Paragraph title = new Paragraph("Reporte de Proveedores\n\n", titleFont);
-            title.Alignment = Element.ALIGN_CENTER;
-            document.Add(title);
+
+            PdfPTable headerTable = new PdfPTable(2);
+            headerTable.WidthPercentage = 100;
+            headerTable.SetWidths(new float[] { 1f, 2f });
+
+
+
+            Font titleFont = FontFactory.GetFont("Arial", 16, Font.BOLD, BaseColor.WHITE);
+            PdfPCell titleCell = new PdfPCell(new Phrase("Reporte de Proveedores", titleFont))
+            {
+                Border = Rectangle.NO_BORDER,
+                HorizontalAlignment = Element.ALIGN_RIGHT,
+                VerticalAlignment = Element.ALIGN_MIDDLE,
+                BackgroundColor = new BaseColor(0, 70, 122),
+                Padding = 10
+            };
+            headerTable.AddCell(titleCell);
+
+            Font infoFont = FontFactory.GetFont("Arial", 12, Font.NORMAL, BaseColor.WHITE);
+            PdfPCell addressCell = new PdfPCell(new Phrase("Ibarra, Ecuador", infoFont))
+            {
+                Border = Rectangle.NO_BORDER,
+                HorizontalAlignment = Element.ALIGN_LEFT,
+                VerticalAlignment = Element.ALIGN_MIDDLE,
+                BackgroundColor = new BaseColor(0, 70, 122),
+                Padding = 40
+            };
+            headerTable.AddCell(addressCell);
+
+
+
+            document.Add(headerTable);
+
+            // Línea separadora
+            PdfPCell lineCell = new PdfPCell(new Phrase("\n"))
+            {
+                Border = Rectangle.BOTTOM_BORDER,
+                Colspan = 2,
+                BorderColor = new BaseColor(0, 70, 122),
+                BorderWidthBottom = 2f,
+                PaddingBottom = 40
+            };
+            headerTable.AddCell(lineCell);
+
+            // Descripción del proyecto
+            Font descriptionFont = FontFactory.GetFont("Arial", 12, Font.BOLD, BaseColor.BLACK);
+            Paragraph description = new Paragraph("DESCRIPCIÓN:\n\n", descriptionFont)
+            {
+                Alignment = Element.ALIGN_LEFT,
+                SpacingAfter = 10
+            };
+            document.Add(description);
 
             // Tabla
-            PdfPTable table = new PdfPTable(10); // 10 columnas
-            table.WidthPercentage = 100;
-            table.SpacingBefore = 20f;
-            table.SpacingAfter = 30f;
+            PdfPTable table = new PdfPTable(10)
+            {
+                WidthPercentage = 100,
+                SpacingBefore = 20f,
+                SpacingAfter = 30f
+            };
+            table.SetWidths(new float[] { 5f, 15f, 15f, 15f, 10f, 15f, 20f, 15f, 20f, 10f });
 
             // Estilos de la tabla
-            Font tableHeaderFont = FontFactory.GetFont("Arial", 10, Font.BOLD);
-            Font tableCellFont = FontFactory.GetFont("Arial", 8, Font.NORMAL);
+            Font tableHeaderFont = FontFactory.GetFont("Arial", 10, Font.BOLD, BaseColor.WHITE);
+            Font tableCellFont = FontFactory.GetFont("Arial", 8, Font.NORMAL, BaseColor.BLACK);
 
             // Encabezados de la tabla
             string[] headers = { "ID", "Cédula/RUC", "Apellidos", "Nombres", "Ciudad", "Tipo de Proveedor", "Dirección", "Teléfono", "Email", "Estado" };
@@ -68,7 +107,8 @@ namespace ModuloCompras.Mvc.Controllers
                 {
                     HorizontalAlignment = Element.ALIGN_CENTER,
                     VerticalAlignment = Element.ALIGN_MIDDLE,
-                    BackgroundColor = BaseColor.LIGHT_GRAY
+                    BackgroundColor = new BaseColor(0, 70, 122), // Color azul
+                    Padding = 5
                 };
                 table.AddCell(cell);
             }
@@ -78,19 +118,20 @@ namespace ModuloCompras.Mvc.Controllers
             {
                 string estado = proveedor.Estado ? "Activo" : "Inactivo";
 
-                table.AddCell(new PdfPCell(new Phrase(proveedor.Id.ToString(), tableCellFont)));
-                table.AddCell(new PdfPCell(new Phrase(proveedor.CedulaRuc ?? "", tableCellFont)));
-                table.AddCell(new PdfPCell(new Phrase(proveedor.Apellidos ?? "", tableCellFont)));
-                table.AddCell(new PdfPCell(new Phrase(proveedor.Nombres ?? "", tableCellFont)));
-                table.AddCell(new PdfPCell(new Phrase(proveedor.Ciudad ?? "", tableCellFont)));
-                table.AddCell(new PdfPCell(new Phrase(proveedor.TipoProveedor ?? "", tableCellFont)));
-                table.AddCell(new PdfPCell(new Phrase(proveedor.Direccion ?? "", tableCellFont)));
-                table.AddCell(new PdfPCell(new Phrase(proveedor.Telefono ?? "", tableCellFont)));
-                table.AddCell(new PdfPCell(new Phrase(proveedor.Email ?? "", tableCellFont)));
-                table.AddCell(new PdfPCell(new Phrase(estado, tableCellFont)));
+                table.AddCell(new PdfPCell(new Phrase(proveedor.Id.ToString(), tableCellFont)) { Padding = 5 });
+                table.AddCell(new PdfPCell(new Phrase(proveedor.CedulaRuc ?? "", tableCellFont)) { Padding = 5 });
+                table.AddCell(new PdfPCell(new Phrase(proveedor.Apellidos ?? "", tableCellFont)) { Padding = 5 });
+                table.AddCell(new PdfPCell(new Phrase(proveedor.Nombres ?? "", tableCellFont)) { Padding = 5 });
+                table.AddCell(new PdfPCell(new Phrase(proveedor.Ciudad ?? "", tableCellFont)) { Padding = 5 });
+                table.AddCell(new PdfPCell(new Phrase(proveedor.TipoProveedor ?? "", tableCellFont)) { Padding = 5 });
+                table.AddCell(new PdfPCell(new Phrase(proveedor.Direccion ?? "", tableCellFont)) { Padding = 5 });
+                table.AddCell(new PdfPCell(new Phrase(proveedor.Telefono ?? "", tableCellFont)) { Padding = 5 });
+                table.AddCell(new PdfPCell(new Phrase(proveedor.Email ?? "", tableCellFont)) { Padding = 5 });
+                table.AddCell(new PdfPCell(new Phrase(estado, tableCellFont)) { Padding = 5 });
             }
 
             document.Add(table);
+
             document.Close();
 
             byte[] byteInfo = workStream.ToArray();
@@ -99,13 +140,46 @@ namespace ModuloCompras.Mvc.Controllers
 
             return File(workStream, "application/pdf", "ReporteProveedores.pdf");
         }
-  
+
+        // Clase para manejar el pie de página
+        public class FooterEventHandler : PdfPageEventHelper
+        {
+            public override void OnEndPage(PdfWriter writer, Document document)
+            {
+                PdfPTable footerTable = new PdfPTable(1);
+                footerTable.TotalWidth = document.PageSize.Width - document.LeftMargin - document.RightMargin;
+
+                Font footerFont = FontFactory.GetFont("Arial", 10, BaseColor.BLACK);
+
+                // Línea azul
+                PdfPCell lineCell = new PdfPCell(new Phrase(""))
+                {
+                    Border = Rectangle.BOTTOM_BORDER,
+                    BorderColor = new BaseColor(0, 70, 122),
+                    BorderWidthBottom = 2f,
+                    PaddingBottom = 10
+                };
+                footerTable.AddCell(lineCell);
+
+                // Fecha y hora
+                string fechaHoraActual = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+                PdfPCell dateTimeCell = new PdfPCell(new Phrase($"Módulo de Compras - Fecha y hora: {fechaHoraActual}", footerFont))
+                {
+                    Border = Rectangle.NO_BORDER,
+                    HorizontalAlignment = Element.ALIGN_CENTER,
+                    PaddingTop = 5
+                };
+                footerTable.AddCell(dateTimeCell);
+
+                footerTable.WriteSelectedRows(0, -1, document.LeftMargin, document.BottomMargin, writer.DirectContent);
+            }
+        }
 
 
 
 
-// GET: ProveedoresController
-public ActionResult Index()
+        // GET: ProveedoresController
+        public ActionResult Index()
         {
             var data = Crud<Proveedor>.Read(urlApi);
             return View(data);

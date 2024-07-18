@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using System.IO;
 
 namespace ModuloCompras.Mvc
 {
@@ -58,8 +61,15 @@ namespace ModuloCompras.Mvc
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
+            app.MapControllerRoute(
+                name: "reportePDF",
+                pattern: "Proveedores/GenerarReportePDF",
+                defaults: new { controller = "Proveedores", action = "GenerarReportePDF" });
+
             app.MapRazorPages();
             app.Run();
         }
+
     }
+
 }

@@ -28,19 +28,41 @@ namespace ModuloCompras.ConsumeApi
                 return result;
             }
         }
-
+        //Modificado
         public static T[] Read(string urlApi)
         {
-            using (HttpClient client = new HttpClient())
+            try
             {
-                var response = client.GetStringAsync(urlApi);
-                response.Wait();
+                using (HttpClient client = new HttpClient())
+                {
+                    var response = client.GetStringAsync(urlApi);
+                    response.Wait();
 
-                var json = response.Result;
-                var result = JsonConvert.DeserializeObject<T[]>(json);
-                return result;
+                    var json = response.Result;
+                    var result = JsonConvert.DeserializeObject<T[]>(json);
+                    return result;
+                }
+            }
+            catch (AggregateException ex)
+            {
+                foreach (var innerEx in ex.InnerExceptions)
+                {
+                    Console.WriteLine(innerEx.Message);
+                }
+                throw;
+            }
+            catch (HttpRequestException httpEx)
+            {
+                Console.WriteLine(httpEx.Message);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
             }
         }
+        //* Hasta aqui
 
         public static T Read_ById(string urlApi, int id)
         {

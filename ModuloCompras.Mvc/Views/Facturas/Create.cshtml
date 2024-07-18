@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Crear Factura";
+    ViewData["Title"] = "Crear Detalle de Factura";
 }
 
 <h1 class="text-center my-4">@ViewData["Title"]</h1>
@@ -15,7 +16,6 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
-
 
                             <div class="form-group mb-3">
                                 <label asp-for="ProveedorId" class="control-label">Proveedor</label>
@@ -31,13 +31,12 @@
                                 <span asp-validation-for="ProveedorId" class="text-danger"></span>
                             </div>
 
-
                             <div class="form-group mb-3">
                                 <label asp-for="TipoPago" class="control-label">Tipo de Pago</label>
                                 <input asp-for="TipoPago" class="form-control" />
                                 <span asp-validation-for="TipoPago" class="text-danger"></span>
                             </div>
-                                                        
+
                         </div>
                         <div class="col-md-6">
 
@@ -59,6 +58,11 @@
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        @Html.Partial("~/Views/DetalleFacturas/Create.cshtml")
+                    </div>
+
+
                     <div class="form-group text-center mt-4 d-flex justify-content-center">
                         <a asp-action="Index" class="btn btn-secondary mx-2"><i class="fas fa-arrow-left"></i>Cancelar</a>
                         <input type="submit" value="Guardar" class="btn btn-primary mx-2" />
@@ -69,7 +73,6 @@
         </form>
     </div>
 </div>
-
 
 @section Scripts {
     @{
@@ -106,5 +109,4 @@
             }
         </script>
     }
-    
 }

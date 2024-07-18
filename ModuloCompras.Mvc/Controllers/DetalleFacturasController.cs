@@ -1,18 +1,17 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ModuloCompras.ConsumeApi;
 using ModuloCompras.Entidades;
+using System.Threading.Tasks;
 
 namespace ModuloCompras.Mvc.Controllers
 {
-
     public class DetalleFacturasController : Controller
     {
-        private string urlApi;
+        private readonly string urlApi;
 
         public DetalleFacturasController(IConfiguration configuration)
         {
-            urlApi = configuration.GetValue("ApiUrlBase", "").ToString() + "/DetalleFacturas";
+            urlApi = configuration.GetValue<string>("ApiUrlBase") + "/DetalleFacturas";
         }
 
         // GET: DetalleFacturasController
@@ -38,7 +37,7 @@ namespace ModuloCompras.Mvc.Controllers
         // POST: DetalleFacturasController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(DetalleFactura data)
+        public async Task<ActionResult> Create(DetalleFactura data)
         {
             try
             {
@@ -62,7 +61,7 @@ namespace ModuloCompras.Mvc.Controllers
         // POST: DetalleFacturasController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, DetalleFactura data)
+        public async Task<ActionResult> Edit(int id, DetalleFactura data)
         {
             try
             {
@@ -86,7 +85,7 @@ namespace ModuloCompras.Mvc.Controllers
         // POST: DetalleFacturasController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, DetalleFactura data)
+        public async Task<ActionResult> Delete(int id, DetalleFactura data)
         {
             try
             {

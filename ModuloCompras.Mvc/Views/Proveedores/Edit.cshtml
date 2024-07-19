@@ -16,55 +16,55 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label asp-for="Id" class="control-label text-black"></label>
+                                <label asp-for="Id" class="control-label"></label>
                                 <input asp-for="Id" class="form-control" />
                                 <span asp-validation-for="Id" class="text-danger"></span>
                             </div>
                             <div class="form-group mb-3">
-                                <label asp-for="CedulaRuc" class="control-label text-black"></label>
+                                <label asp-for="CedulaRuc" class="control-label"></label>
                                 <input asp-for="CedulaRuc" class="form-control" />
                                 <span asp-validation-for="CedulaRuc" class="text-danger"></span>
                             </div>
                             <div class="form-group mb-3">
-                                <label asp-for="Apellidos" class="control-label text-black"></label>
+                                <label asp-for="Apellidos" class="control-label"></label>
                                 <input asp-for="Apellidos" class="form-control" />
                                 <span asp-validation-for="Apellidos" class="text-danger"></span>
                             </div>
                             <div class="form-group mb-3">
-                                <label asp-for="Nombres" class="control-label text-black"></label>
+                                <label asp-for="Nombres" class="control-label"></label>
                                 <input asp-for="Nombres" class="form-control" />
                                 <span asp-validation-for="Nombres" class="text-danger"></span>
                             </div>
                             <div class="form-group mb-3">
-                                <label asp-for="Ciudad" class="control-label text-black"></label>
+                                <label asp-for="Ciudad" class="control-label"></label>
                                 <input asp-for="Ciudad" class="form-control" />
                                 <span asp-validation-for="Ciudad" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label asp-for="TipoProveedor" class="control-label text-black"></label>
+                                <label asp-for="TipoProveedor" class="control-label"></label>
                                 <input asp-for="TipoProveedor" class="form-control" />
                                 <span asp-validation-for="TipoProveedor" class="text-danger"></span>
                             </div>
                             <div class="form-group mb-3">
-                                <label asp-for="Direccion" class="control-label text-black"></label>
+                                <label asp-for="Direccion" class="control-label"></label>
                                 <input asp-for="Direccion" class="form-control" />
                                 <span asp-validation-for="Direccion" class="text-danger"></span>
                             </div>
                             <div class="form-group mb-3">
-                                <label asp-for="Telefono" class="control-label text-black"></label>
+                                <label asp-for="Telefono" class="control-label"></label>
                                 <input asp-for="Telefono" class="form-control" />
                                 <span asp-validation-for="Telefono" class="text-danger"></span>
                             </div>
                             <div class="form-group mb-3">
-                                <label asp-for="Email" class="control-label text-black"></label>
+                                <label asp-for="Email" class="control-label"></label>
                                 <input asp-for="Email" class="form-control" />
                                 <span asp-validation-for="Email" class="text-danger"></span>
                             </div>
                             <div class="form-group form-check mb-3">
                                 <input class="form-check-input" asp-for="Estado" />
-                                <label class="form-check-label text-black" asp-for="Estado"></label>
+                                <label class="form-check-label" asp-for="Estado"></label>
                             </div>
                         </div>
                     </div>
@@ -84,9 +84,3 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
-
-<style>
-    .text-black {
-        color: black !important;
-    }
-</style>

@@ -27,5 +27,14 @@ namespace ModuloCompras.Mvc.Controllers
             var productos = JsonConvert.DeserializeObject<List<Producto>>(jsonResponse);
             return View(productos);
         }
+        [HttpGet]
+        public async Task<IActionResult> GetProductoById(int id)
+        {
+            var response = await _httpClient.GetAsync($"{_apiUrlProductos}/Producto/{id}");
+            response.EnsureSuccessStatusCode();
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var producto = JsonConvert.DeserializeObject<Producto>(jsonResponse);
+            return Json(producto);
+        }
     }
 }

@@ -1,15 +1,15 @@
-﻿@model ModuloCompras.Entidades.Factura
+﻿@model ModuloCompras.Entidades.FacturaDetalleViewModel
 
 @{
-    <h1 class="text-center" style="color: white;">Factura Nueva</h1>
+    ViewData["Title"] = "Factura Nueva";
 }
 
-<h1 class="text-center my-4" style="color: white;">@ViewData["Title"]</h1>
+<h1 class="text-center my-4">@ViewData["Title"]</h1>
 
 <hr />
 <div class="row justify-content-center">
     <div class="col-md-8">
-        <form asp-action="Create" style="font-size: 0.9em;">
+        <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
             <div class="card">
                 <div class="card-body">
@@ -17,8 +17,8 @@
                         <div class="col-md-6">
 
                             <div class="form-group mb-3">
-                                <label asp-for="ProveedorId" class="control-label" style="color: black;">Proveedor</label>
-                                <select asp-for="ProveedorId" class="form-control" id="ProveedorId" onchange="cargarTipoPago()">
+                                <label asp-for="Factura.ProveedorId" class="control-label">Proveedor</label>
+                                <select asp-for="Factura.ProveedorId" class="form-control" id="ProveedorId" onchange="cargarTipoPago()">
                                     <option value="">Seleccione un proveedor</option>
                                     @foreach (var proveedor in ViewBag.ProveedoresActivos)
                                     {
@@ -27,53 +27,78 @@
                                         </option>
                                     }
                                 </select>
-                                <span asp-validation-for="ProveedorId" class="text-danger"></span>
+                                <span asp-validation-for="Factura.ProveedorId" class="text-danger"></span>
                             </div>
 
                             <div class="form-group mb-3">
-                                <label asp-for="TipoPago" class="control-label" style="color: black;">Tipo de Pago</label>
-                                <input asp-for="TipoPago" class="form-control" />
-                                <span asp-validation-for="TipoPago" class="text-danger"></span>
+                                <label asp-for="Factura.TipoPago" class="control-label">Tipo de Pago</label>
+                                <input asp-for="Factura.TipoPago" class="form-control" />
+                                <span asp-validation-for="Factura.TipoPago" class="text-danger"></span>
                             </div>
 
                         </div>
                         <div class="col-md-6">
 
                             <div class="form-group mb-3">
-                                <label for="fechaActual" class="control-label" style="color: black;">Fecha y Hora</label>
+                                <label for="fechaActual" class="control-label">Fecha y Hora</label>
                                 <input type="text" id="fechaActual" class="form-control" readonly />
                             </div>
 
                             <div class="form-group mb-3">
-                                <label asp-for="FechaVencimiento" class="control-label" style="color: black;">Fecha de Vencimiento</label>
-                                <input asp-for="FechaVencimiento" class="form-control" type="date" id="FechaVencimiento" />
-                                <span asp-validation-for="FechaVencimiento" class="text-danger"></span>
+                                <label asp-for="Factura.FechaVencimiento" class="control-label">Fecha de Vencimiento</label>
+                                <input asp-for="Factura.FechaVencimiento" class="form-control" type="date" id="FechaVencimiento" />
+                                <span asp-validation-for="Factura.FechaVencimiento" class="text-danger"></span>
                             </div>
 
                         </div>
                         <div class="form-group">
-                            @Html.Partial("~/Views/DetalleFacturas/Create.cshtml")
+                            <div class="form-group mb-3">
+                                <label asp-for="DetalleFactura.ProductoId" class="control-label">Producto</label>
+                                <select asp-for="DetalleFactura.ProductoId" class="form-control" id="ProductoId">
+                                    <option value="">Seleccione un producto</option>
+                                    @if (ViewBag.Productos != null)
+                                    {
+                                        foreach (var producto in ViewBag.Productos)
+                                        {
+                                            <option value="@producto.Id_Producto">@producto.Nombre</option>
+                                        }
+                                    }
+                                </select>
+                                <span asp-validation-for="DetalleFactura.ProductoId" class="text-danger"></span>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label asp-for="DetalleFactura.PrecioUnitario" class="control-label">Precio Unitario</label>
+                                <input asp-for="DetalleFactura.PrecioUnitario" class="form-control" id="PrecioUnitario" />
+                                <span asp-validation-for="DetalleFactura.PrecioUnitario" class="text-danger"></span>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label asp-for="DetalleFactura.Cantidad" class="control-label">Cantidad</label>
+                                <input asp-for="DetalleFactura.Cantidad" class="form-control" />
+                                <span asp-validation-for="DetalleFactura.Cantidad" class="text-danger"></span>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label asp-for="DetalleFactura.Iva" class="control-label">IVA</label>
+                                <input asp-for="DetalleFactura.Iva" class="form-control" id="Iva" />
+                                <span asp-validation-for="DetalleFactura.Iva" class="text-danger"></span>
+                            </div>
                         </div>
-
                     </div>
                     <br />
-                    <div class="text-center">
-                        <button type="button" class="btn btn-primary" id="addProductButton">Agregar Producto</button>
-                    </div>
+                    <button type="button" class="btn btn-primary" id="addProductButton">Agregar Producto</button>
 
                     <hr />
 
-                    <h3 class="text-center" style="color: black;">Productos</h3>
+                    <h3>Productos</h3>
                     <table class="table table-bordered" id="productosTable">
                         <thead>
                             <tr>
-                                <th style="color: black;">Código</th>
-                                <th style="color: black;">Descripción</th>
-                                <th style="color: black;">Cantidad</th>
-                                <th style="color: black;">Precio Unitario</th>
-                                <th style="color: black;">IVA</th>
-                                <th style="color: black;">Subtotal</th>
-                                <th style="color: black;">Acciones</th>
+                                <th>Código</th>
+                                <th>Descripción</th>
+                                <th>Cantidad</th>
+                                <th>Precio</th>
+                                <th>IVA</th>
+                                <th>Subtotal</th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -98,6 +123,7 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
         <script>
+
             function cargarFechaActual() {
                 var fechaActual = new Date();
                 var dia = ("0" + fechaActual.getDate()).slice(-2);
@@ -111,14 +137,12 @@
                 document.getElementById("fechaActual").value = fechaYHora;
             }
 
-            // Llamar a la función cuando la página se carga
             window.onload = function () {
                 cargarFechaActual();
-
-                // Establecer la fecha mínima para el campo de fecha de vencimiento
                 var fechaActual = new Date().toISOString().split('T')[0];
                 document.getElementById("FechaVencimiento").setAttribute("min", fechaActual);
             };
+
             function cargarTipoPago() {
                 var proveedorSelect = document.getElementById("ProveedorId");
                 var tipoPagoInput = document.getElementById("TipoPago");
@@ -126,6 +150,62 @@
                 var tipoPago = selectedOption.getAttribute("data-tipopago");
                 tipoPagoInput.value = tipoPago;
             }
+
+            $(document).ready(function () {
+                $('#ProductoId').change(function () {
+                    var productoId = $(this).val();
+                    if (productoId) {
+                        $.ajax({
+                            url: '@Url.Action("GetProductoById", "Productos")/' + productoId,
+                            type: 'GET',
+                            success: function (data) {
+                                $('#PrecioUnitario').val(data.Pvp);
+                                $('#Iva').val(data.GravaIVA ? "Sí" : "No");
+                            },
+                            error: function () {
+                                alert('Error al obtener los detalles del producto.');
+                            }
+                        });
+                    } else {
+                        $('#PrecioUnitario').val('');
+                        $('#Iva').val('');
+                    }
+                });
+
+                $('#addProductButton').click(function () {
+                    var productoId = $('#ProductoId').val();
+                    var productoTexto = $('#ProductoId option:selected').text();
+                    var cantidad = $('#Cantidad').val();
+                    var precioUnitario = $('#PrecioUnitario').val();
+                    var iva = $('#Iva').val();
+                    var subtotal = (parseFloat(cantidad) * parseFloat(precioUnitario)).toFixed(2);
+
+                    if (productoId && cantidad && precioUnitario) {
+                        var nuevaFila = `
+                                        <tr>
+                                            <td>${productoId}</td>
+                                            <td>${productoTexto}</td>
+                                            <td>${cantidad}</td>
+                                            <td>${precioUnitario}</td>
+                                            <td>${iva}</td>
+                                            <td>${subtotal}</td>
+                                            <td><button type="button" class="btn btn-danger btn-sm eliminarProducto">Eliminar</button></td>
+                                        </tr>`;
+                        $('#productosTable tbody').append(nuevaFila);
+
+                        $('#ProductoId').val('');
+                        $('#Cantidad').val('');
+                        $('#PrecioUnitario').val('');
+                        $('#Iva').val('');
+                    } else {
+                        alert('Por favor, complete todos los campos del producto.');
+                    }
+                });
+
+                $(document).on('click', '.eliminarProducto', function () {
+                    $(this).closest('tr').remove();
+                });
+            });
         </script>
     }
 }

@@ -1,17 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ModuloCompras.ConsumeApi;
 using ModuloCompras.Entidades;
+using Newtonsoft.Json;
+using System.Net.Http;
 using System.Threading.Tasks;
+using ModuloCompras.Mvc.Models;
+using System.Collections.Generic;
 
 namespace ModuloCompras.Mvc.Controllers
 {
     public class DetalleFacturasController : Controller
     {
         private readonly string urlApi;
+        private readonly string urlApiProductos;
+        private readonly HttpClient _httpClient;
 
-        public DetalleFacturasController(IConfiguration configuration)
+        public DetalleFacturasController(IConfiguration configuration, IHttpClientFactory httpClientFactory)
         {
+            _httpClient = httpClientFactory.CreateClient();
             urlApi = configuration.GetValue<string>("ApiUrlBase") + "/DetalleFacturas";
+            urlApiProductos = configuration.GetValue<string>("ApiUrlProductos") + "/Producto";
         }
 
         // GET: DetalleFacturasController
@@ -29,8 +37,10 @@ namespace ModuloCompras.Mvc.Controllers
         }
 
         // GET: DetalleFacturasController/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
+            var productos = await ObtenerProductos();
+            ViewBag.Productos = productos;
             return View();
         }
 
@@ -47,6 +57,8 @@ namespace ModuloCompras.Mvc.Controllers
             catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
+                var productos = await ObtenerProductos();
+                ViewBag.Productos = productos;
                 return View(data);
             }
         }
@@ -97,6 +109,17 @@ namespace ModuloCompras.Mvc.Controllers
                 ModelState.AddModelError("", ex.Message);
                 return View(data);
             }
+        }
+
+        private async Task<List<Producto>> ObtenerProductos()
+        {
+            var response = await _httpClient.GetAsync(urlApiProductos);
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonResponse = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<Producto>>(jsonResponse);
+            }
+            return new List<Producto>();
         }
     }
 }

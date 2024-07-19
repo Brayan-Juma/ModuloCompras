@@ -1,10 +1,10 @@
 ﻿@model ModuloCompras.Entidades.Factura
 
 @{
-    <h1 class="text-center">Factura Nueva</h1>
+    <h1 class="text-center" style="color: white;">Factura Nueva</h1>
 }
 
-<h1 class="text-center my-4">@ViewData["Title"]</h1>
+<h1 class="text-center my-4" style="color: white;">@ViewData["Title"]</h1>
 
 <hr />
 <div class="row justify-content-center">
@@ -17,7 +17,7 @@
                         <div class="col-md-6">
 
                             <div class="form-group mb-3">
-                                <label asp-for="ProveedorId" class="control-label">Proveedor</label>
+                                <label asp-for="ProveedorId" class="control-label" style="color: black;">Proveedor</label>
                                 <select asp-for="ProveedorId" class="form-control" id="ProveedorId" onchange="cargarTipoPago()">
                                     <option value="">Seleccione un proveedor</option>
                                     @foreach (var proveedor in ViewBag.ProveedoresActivos)
@@ -31,7 +31,7 @@
                             </div>
 
                             <div class="form-group mb-3">
-                                <label asp-for="TipoPago" class="control-label">Tipo de Pago</label>
+                                <label asp-for="TipoPago" class="control-label" style="color: black;">Tipo de Pago</label>
                                 <input asp-for="TipoPago" class="form-control" />
                                 <span asp-validation-for="TipoPago" class="text-danger"></span>
                             </div>
@@ -40,12 +40,12 @@
                         <div class="col-md-6">
 
                             <div class="form-group mb-3">
-                                <label for="fechaActual" class="control-label">Fecha y Hora</label>
+                                <label for="fechaActual" class="control-label" style="color: black;">Fecha y Hora</label>
                                 <input type="text" id="fechaActual" class="form-control" readonly />
                             </div>
 
                             <div class="form-group mb-3">
-                                <label asp-for="FechaVencimiento" class="control-label">Fecha de Vencimiento</label>
+                                <label asp-for="FechaVencimiento" class="control-label" style="color: black;">Fecha de Vencimiento</label>
                                 <input asp-for="FechaVencimiento" class="form-control" type="date" id="FechaVencimiento" />
                                 <span asp-validation-for="FechaVencimiento" class="text-danger"></span>
                             </div>
@@ -63,17 +63,17 @@
 
                     <hr />
 
-                    <h3 class="text-center">Productos</h3>
+                    <h3 class="text-center" style="color: black;">Productos</h3>
                     <table class="table table-bordered" id="productosTable">
                         <thead>
                             <tr>
-                                <th>Código</th>
-                                <th>Descripción</th>
-                                <th>Cantidad</th>
-                                <th>Precio</th>
-                                <th>IVA</th>
-                                <th>Subtotal</th>
-                                <th>Acciones</th>
+                                <th style="color: black;">Código</th>
+                                <th style="color: black;">Descripción</th>
+                                <th style="color: black;">Cantidad</th>
+                                <th style="color: black;">Precio Unitario</th>
+                                <th style="color: black;">IVA</th>
+                                <th style="color: black;">Subtotal</th>
+                                <th style="color: black;">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -98,7 +98,6 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
         <script>
-
             function cargarFechaActual() {
                 var fechaActual = new Date();
                 var dia = ("0" + fechaActual.getDate()).slice(-2);

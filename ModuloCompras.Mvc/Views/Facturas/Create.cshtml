@@ -1,7 +1,7 @@
 ﻿@model ModuloCompras.Entidades.Factura
 
 @{
-   <h1>Factura Nueva</h1> 
+    <h1 class="text-center">Factura Nueva</h1>
 }
 
 <h1 class="text-center my-4">@ViewData["Title"]</h1>
@@ -9,7 +9,7 @@
 <hr />
 <div class="row justify-content-center">
     <div class="col-md-8">
-        <form asp-action="Create">
+        <form asp-action="Create" style="font-size: 0.9em;">
             <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
             <div class="card">
                 <div class="card-body">
@@ -50,8 +50,6 @@
                                 <span asp-validation-for="FechaVencimiento" class="text-danger"></span>
                             </div>
 
-                            
-
                         </div>
                         <div class="form-group">
                             @Html.Partial("~/Views/DetalleFacturas/Create.cshtml")
@@ -59,11 +57,13 @@
 
                     </div>
                     <br />
-                    <button type="button" class="btn btn-primary" id="addProductButton">Agregar Producto</button>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-primary" id="addProductButton">Agregar Producto</button>
+                    </div>
 
                     <hr />
 
-                    <h3>Productos</h3>
+                    <h3 class="text-center">Productos</h3>
                     <table class="table table-bordered" id="productosTable">
                         <thead>
                             <tr>
@@ -80,10 +80,8 @@
                             <!-- Aquí se agregarán las filas dinámicamente -->
                         </tbody>
                     </table>
-                  
 
                     <hr />
-                                      
 
                     <div class="form-group text-center mt-4 d-flex justify-content-center">
                         <a asp-action="Index" class="btn btn-secondary mx-2"><i class="fas fa-arrow-left"></i>Cancelar</a>

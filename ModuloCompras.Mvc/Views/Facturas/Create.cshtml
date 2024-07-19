@@ -1,8 +1,7 @@
 ﻿@model ModuloCompras.Entidades.Factura
 
 @{
-    ViewData["Title"] = "Crear Factura";
-    ViewData["Title"] = "Crear Detalle de Factura";
+   <h1>Factura Nueva</h1> 
 }
 
 <h1 class="text-center my-4">@ViewData["Title"]</h1>
@@ -51,17 +50,40 @@
                                 <span asp-validation-for="FechaVencimiento" class="text-danger"></span>
                             </div>
 
-                            <div class="form-group form-check mb-3">
-                                <input class="form-check-input" asp-for="Impresa" />
-                                <label class="form-check-label" asp-for="Impresa"></label>
-                            </div>
+                            
+
                         </div>
-                    </div>
+                        <div class="form-group">
+                            @Html.Partial("~/Views/DetalleFacturas/Create.cshtml")
+                        </div>
 
-                    <div class="form-group">
-                        @Html.Partial("~/Views/DetalleFacturas/Create.cshtml")
                     </div>
+                    <br />
+                    <button type="button" class="btn btn-primary" id="addProductButton">Agregar Producto</button>
 
+                    <hr />
+
+                    <h3>Productos</h3>
+                    <table class="table table-bordered" id="productosTable">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Descripción</th>
+                                <th>Cantidad</th>
+                                <th>Precio</th>
+                                <th>IVA</th>
+                                <th>Subtotal</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Aquí se agregarán las filas dinámicamente -->
+                        </tbody>
+                    </table>
+                  
+
+                    <hr />
+                                      
 
                     <div class="form-group text-center mt-4 d-flex justify-content-center">
                         <a asp-action="Index" class="btn btn-secondary mx-2"><i class="fas fa-arrow-left"></i>Cancelar</a>

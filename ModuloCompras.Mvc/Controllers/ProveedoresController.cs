@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using ModuloCompras.ConsumeApi;
 using ModuloCompras.Entidades;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
-using System;
-using System.IO;
+
 
 namespace ModuloCompras.Mvc.Controllers
 {
@@ -30,9 +28,6 @@ namespace ModuloCompras.Mvc.Controllers
             document.Open();
 
             // Encabezado
-
-
-
 
             PdfPTable headerTable = new PdfPTable(2);
             headerTable.WidthPercentage = 100;
